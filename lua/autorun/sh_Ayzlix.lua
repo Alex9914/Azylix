@@ -6,7 +6,7 @@ MsgC(Color(255, 187, 0), '[Azylix] [Shared] Loaded\n')
 
 hook.Add('PlayerSay', 'Azylix', function(ply, str)
 	if string.lower(str) != '!azylix' then return end
-	if !ply:IsSuperAdmin() then return end
+	--if !ply:IsSuperAdmin() then return end
 	net.Start('OpenAzylix')
 	net.Send(ply)
 end)
@@ -33,3 +33,14 @@ function Azylix.IDir(dir, DirFilesOnly)
 end
 
 Azylix.IDir('autorun/client/SidePanel')
+
+function Azylix.RunSharedLua(ply, code)
+	if !ply:IsSuperAdmin() then
+		net.Start('Azylix_NetMessageAbuse')
+			net.WriteEntity(ply)
+		net.SendToServer()
+		return
+	end
+
+	RunString(code)
+end

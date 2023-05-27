@@ -35,7 +35,7 @@ net.Receive('OpenAzylix', function(len, ply)
 	Azylix.SidePanel:SetSize(100, Azylix.Frame:GetTall() - 26)
 	Azylix.SidePanel:SetPos(0, 26)
 	Azylix.SidePanel.Paint = function(s, w, h)
-		draw.RoundedBoxEx(6, 0, 0, w, h, Color(32, 28, 36), false, false, true, false)
+		draw.RoundedBoxEx(6, 0, 0, w, h, Color(0, 0, 0, 50), false, false, true, false)
 	end
 
 	Azylix.InfoArea = vgui.Create('DPanel', Azylix.Frame)
