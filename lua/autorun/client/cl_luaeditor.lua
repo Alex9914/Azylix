@@ -95,7 +95,11 @@ function PANEL:SetCode(code)
 end
 
 function PANEL:GetCode()
-	return 'local me=Entity(' .. LocalPlayer():EntIndex() .. ') local trace=me:GetEyeTrace() local this, there=trace.Entity, trace.HitPos ' .. self.Code
+	return 'local me=Entity(' .. LocalPlayer():EntIndex() .. ') local trace=me:GetEyeTrace() local this, there=trace.Entity,trace.HitPos ' .. self.Code
+end
+
+function PANEL:GetCleanCode()
+	return self.Code
 end
 
 function PANEL:SetGutterError(errline,errstr)
@@ -177,6 +181,5 @@ function PANEL:PerformLayout(w, h)
 
 	self.HTML:SetSize(w, h - tall)
 end
-
 
 vgui.Register('ayzlix_lua_editor', PANEL, 'EditablePanel')
