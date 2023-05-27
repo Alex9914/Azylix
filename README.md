@@ -1,6 +1,1 @@
-lua_editor
-==========
-
-HTML part of the ingame GMod lua editor.
-
-Uses a modified ace editor.
+Modified version of [lua editor](https://github.com/Metastruct/lua_editor)
