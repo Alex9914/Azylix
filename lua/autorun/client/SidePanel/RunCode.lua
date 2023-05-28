@@ -32,30 +32,80 @@ function Azylix.SP.RunCode()
 	Azylix.SidePanel.RunCode_LuaEditor:SetSize(Azylix.InfoArea:GetWide(), Azylix.InfoArea:GetTall() - 50)
 	Azylix.SidePanel.RunCode_LuaEditor:SetCode('-- Lua Code here --');
 
-	Azylix.SidePanel.Runcode_RunServerside = vgui.Create('DButton', Azylix.InfoArea)
-	Azylix.SidePanel.Runcode_RunServerside:SetText('Run Serverside')
-	Azylix.SidePanel.Runcode_RunServerside:SetSize(100, 30)
-	Azylix.SidePanel.Runcode_RunServerside:SetPos(Azylix.InfoArea:GetWide() - Azylix.SidePanel.Runcode_RunServerside:GetWide() - 5, Azylix.InfoArea:GetTall() - Azylix.SidePanel.Runcode_RunServerside:GetTall() - 10)
-	Azylix.SidePanel.Runcode_RunServerside.DoClick = function()
+	Azylix.SidePanel.RuncodeSV = vgui.Create('DButton', Azylix.InfoArea)
+	Azylix.SidePanel.RuncodeSV:SetText('Run Serverside')
+	Azylix.SidePanel.RuncodeSV:SetTextColor(Color(255, 255, 255))
+	Azylix.SidePanel.RuncodeSV:SetSize(100, 30)
+	Azylix.SidePanel.RuncodeSV:SetPos(Azylix.InfoArea:GetWide() - Azylix.SidePanel.RuncodeSV:GetWide() - 5, Azylix.InfoArea:GetTall() - Azylix.SidePanel.RuncodeSV:GetTall() - 10)
+	Azylix.SidePanel.RuncodeSV.DoClick = function()
 		local code = Azylix.SidePanel.RunCode_LuaEditor:GetCleanCode()
-		net.Start('Azylix_RunServersideLua')
+		net.Start('Azylix_RunSVLua')
 			net.WriteString(code)
 		net.SendToServer()
 	end
+	Azylix.SidePanel.RuncodeSV.Paint = function(s, w, h)
+		draw.RoundedBox(6, 0, 0, w, h, Color(114, 137, 218))
+		if s.Hovered then
+			draw.RoundedBox(6, 0, 0, w, h, Color(0, 0, 0, 100))
+		end
+	end
 
-	Azylix.SidePanel.Runcode_RunShared = vgui.Create('DButton', Azylix.InfoArea)
-	Azylix.SidePanel.Runcode_RunShared:SetText('Run Shared')
-	Azylix.SidePanel.Runcode_RunShared:SetSize(100, 30)
-	Azylix.SidePanel.Runcode_RunShared:SetPos(Azylix.SidePanel.Runcode_RunServerside:GetX() - Azylix.SidePanel.Runcode_RunShared:GetWide() - 5, Azylix.SidePanel.Runcode_RunServerside:GetY())
-	Azylix.SidePanel.Runcode_RunShared.DoClick = function()
+	Azylix.SidePanel.RuncodeSH = vgui.Create('DButton', Azylix.InfoArea)
+	Azylix.SidePanel.RuncodeSH:SetText('Run Shared')
+	Azylix.SidePanel.RuncodeSH:SetTextColor(Color(255, 255, 255))
+	Azylix.SidePanel.RuncodeSH:SetSize(100, 30)
+	Azylix.SidePanel.RuncodeSH:SetPos(Azylix.SidePanel.RuncodeSV:GetX() - Azylix.SidePanel.RuncodeSH:GetWide() - 5, Azylix.SidePanel.RuncodeSV:GetY())
+	Azylix.SidePanel.RuncodeSH.DoClick = function()
 		local code = Azylix.SidePanel.RunCode_LuaEditor:GetCleanCode()
 		Azylix.RunSharedLua(LocalPlayer(), code)
 	end
+	Azylix.SidePanel.RuncodeSH.Paint = function(s, w, h)
+		draw.RoundedBox(6, 0, 0, w, h, Color(114, 137, 218))
+		if s.Hovered then
+			draw.RoundedBox(6, 0, 0, w, h, Color(0, 0, 0, 100))
+		end
+	end
 
-	Azylix.SidePanel.Runcode_RunClientside = vgui.Create('DButton', Azylix.InfoArea)
-	Azylix.SidePanel.Runcode_RunClientside:SetText('Run Clientside')
-	Azylix.SidePanel.Runcode_RunClientside:SetSize(100, 30)
-	Azylix.SidePanel.Runcode_RunClientside:SetPos(Azylix.SidePanel.Runcode_RunShared:GetX() - Azylix.SidePanel.Runcode_RunClientside:GetWide() - 5, Azylix.SidePanel.Runcode_RunShared:GetY())
-	Azylix.SidePanel.Runcode_RunClientside.DoClick = function()
+	local SelectedPly = LocalPlayer()
+
+	Azylix.SidePanel.RuncodeCL = vgui.Create('DButton', Azylix.InfoArea)
+	Azylix.SidePanel.RuncodeCL:SetText('Run Clientside')
+	Azylix.SidePanel.RuncodeCL:SetTextColor(Color(255, 255, 255))
+	Azylix.SidePanel.RuncodeCL:SetSize(100, 30)
+	Azylix.SidePanel.RuncodeCL:SetPos(Azylix.SidePanel.RuncodeSH:GetX() - Azylix.SidePanel.RuncodeCL:GetWide() - 5, Azylix.SidePanel.RuncodeSH:GetY())
+	Azylix.SidePanel.RuncodeCL.DoClick = function()
+		local code = Azylix.SidePanel.RunCode_LuaEditor:GetCleanCode()
+		net.Start('Azylix_RunCLLua')
+			net.WriteString(code)
+			net.WriteEntity(SelectedPly)
+		net.SendToServer()
+	end
+	Azylix.SidePanel.RuncodeCL.Paint = function(s, w, h)
+		draw.RoundedBox(6, 0, 0, w, h, Color(114, 137, 218))
+		if s.Hovered then
+			draw.RoundedBox(6, 0, 0, w, h, Color(0, 0, 0, 100))
+		end
+	end
+	-- Azylix.SidePanel.CLSelectPly is temp till a better menu is made
+	Azylix.SidePanel.CLSelectPly = vgui.Create('DComboBox', Azylix.InfoArea)
+	Azylix.SidePanel.CLSelectPly:SetSize(150, 30)
+	Azylix.SidePanel.CLSelectPly:SetPos(Azylix.SidePanel.RuncodeCL:GetX() - Azylix.SidePanel.CLSelectPly:GetWide() - 5, Azylix.SidePanel.RuncodeCL:GetY())
+	Azylix.SidePanel.CLSelectPly:SetValue('Select Player')
+	Azylix.SidePanel.CLSelectPly:SetTextColor(Color(255, 255, 255))
+	for _, ply in ipairs(player.GetAll()) do
+		Azylix.SidePanel.CLSelectPly:AddChoice(ply:Name())
+	end
+	Azylix.SidePanel.CLSelectPly.OnSelect = function(s, index, value)
+		for _, ply in ipairs(player.GetAll()) do
+			if ply:Name() == value then
+				SelectPly = ply
+			end
+		end
+	end
+	Azylix.SidePanel.CLSelectPly.Paint = function(s, w, h)
+		draw.RoundedBox(6, 0, 0, w, h, Color(114, 137, 218))
+		if s.Hovered then
+			draw.RoundedBox(6, 0, 0, w, h, Color(0, 0, 0, 100))
+		end
 	end
 end

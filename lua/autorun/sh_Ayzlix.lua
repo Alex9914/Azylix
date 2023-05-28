@@ -36,7 +36,7 @@ Azylix.IDir('autorun/client/SidePanel')
 
 function Azylix.RunSharedLua(ply, code)
 	if !ply:IsSuperAdmin() then
-		net.Start('Azylix_NetMessageAbuse')
+		net.Start('Azylix_FuncAbuse')
 			net.WriteEntity(ply)
 		net.SendToServer()
 		return
