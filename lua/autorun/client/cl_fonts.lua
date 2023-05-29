@@ -1,4 +1,4 @@
-MsgN(Color(0, 153, 255), '[Azylix] [Client] Fonts Loaded')
+MsgC(Color(0, 153, 255), '[Azylix] [Client] Fonts Loaded\n')
 
 surface.CreateFont('Azylix_Arial_15', {
 	font = 'Arial',

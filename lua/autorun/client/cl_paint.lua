@@ -1,4 +1,4 @@
-MsgN(Color(0, 153, 255), '[Azylix] [Client] cl_paint.lua Loaded')
+MsgC(Color(0, 153, 255), '[Azylix] [Client] cl_paint.lua Loaded\n')
 
 function Azylix.Paint.DiscordTheme(s, w, h)
 	draw.RoundedBox(6, 0, 0, w, h, Color(49, 51, 56))
