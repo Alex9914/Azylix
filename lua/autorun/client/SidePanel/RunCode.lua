@@ -32,6 +32,21 @@ function Azylix.SP.RunCode()
 	Azylix.SidePanel.RunCode_LuaEditor:SetSize(Azylix.InfoArea:GetWide(), Azylix.InfoArea:GetTall() - 50)
 	Azylix.SidePanel.RunCode_LuaEditor:SetCode('-- Lua Code here --');
 
+	Azylix.SidePanel.RuncodeClear = vgui.Create('DButton', Azylix.InfoArea)
+	Azylix.SidePanel.RuncodeClear:SetText('Clear')
+	Azylix.SidePanel.RuncodeClear:SetTextColor(Color(255, 255, 255))
+	Azylix.SidePanel.RuncodeClear:SetSize(100, 30)
+	Azylix.SidePanel.RuncodeClear:SetPos(5, Azylix.InfoArea:GetTall() - Azylix.SidePanel.RuncodeClear:GetTall() - 10)
+	Azylix.SidePanel.RuncodeClear.DoClick = function()
+		Azylix.SidePanel.RunCode_LuaEditor:SetCode('')
+	end
+	Azylix.SidePanel.RuncodeClear.Paint = function(s, w, h)
+		draw.RoundedBox(6, 0, 0, w, h, Color(114, 137, 218))
+		if s.Hovered then
+			draw.RoundedBox(6, 0, 0, w, h, Color(0, 0, 0, 100))
+		end
+	end
+
 	Azylix.SidePanel.RuncodeSV = vgui.Create('DButton', Azylix.InfoArea)
 	Azylix.SidePanel.RuncodeSV:SetText('Run Serverside')
 	Azylix.SidePanel.RuncodeSV:SetTextColor(Color(255, 255, 255))

@@ -18,10 +18,13 @@ end
 
 function Azylix.SP.Home()
 	Azylix.InfoArea:Clear()
+
 	Azylix.SidePanel.Home_Title = vgui.Create('DLabel', Azylix.InfoArea)
-	Azylix.SidePanel.Home_Title:SetPos(Azylix.InfoArea:GetWide() / 2 - 250 / 2, 20)
-	Azylix.SidePanel.Home_Title:SetSize(250, 50)
-	Azylix.SidePanel.Home_Title:SetText('Azylix GUI')
-	Azylix.SidePanel.Home_Title:SetTextColor(Color(255, 255, 255))
+	Azylix.SidePanel.Home_Title:SetText('Azylix')
 	Azylix.SidePanel.Home_Title:SetFont('Azylix_Arial_e')
+	surface.SetFont(Azylix.SidePanel.Home_Title:GetFont())
+	local tw, th = surface.GetTextSize(Azylix.SidePanel.Home_Title:GetText())
+	Azylix.SidePanel.Home_Title:SetSize(tw, th)
+	Azylix.SidePanel.Home_Title:SetPos(Azylix.Frame:GetWide() / 2 - tw, 20)
+	Azylix.SidePanel.Home_Title:SetTextColor(Color(255, 255, 255))
 end

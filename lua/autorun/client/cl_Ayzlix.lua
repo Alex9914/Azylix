@@ -1,35 +1,19 @@
 MsgC(Color(0, 153, 255), '[Azylix] [Client] Loaded\n')
 
-surface.CreateFont('Azylix_Arial_15', {
-	font = 'Arial',
-	size = 15,
-	weight = 500,
-	antialias = true,
-})
-
-surface.CreateFont('Azylix_Arial_e', {
-	font = 'Arial',
-	size = 50,
-	weight = 500,
-	antialias = true,
-})
-
-local function DiscordTheme(s, w, h)
-	draw.RoundedBox(6, 0, 0, w, h, Color(49, 51, 56))
-end
+concommand.Add('Azylix', function(ply)
+	if !ply:IsSuperAdmin() then return end
+	net.Start('CCOpenAzylix')
+	net.SendToServer()
+end)
 
 net.Receive('OpenAzylix', function(len, ply)
+	if !LocalPlayer():IsSuperAdmin() then return end
 	Azylix.Frame = vgui.Create('DFrame')
-	Azylix.Frame:SetTitle('Azylix GUI')
+	Azylix.Frame:SetTitle('Azylix ' .. Azylix.Version)
 	Azylix.Frame:SetSize(1000, 500)
 	Azylix.Frame:Center()
 	Azylix.Frame:MakePopup()
-	Azylix.Frame.Paint = function(s, w, h)
-		DiscordTheme(s, w, h)
-		draw.RoundedBoxEx(6, 0, 0, w, 26, Color(32, 28, 36), true, true, false, false)
-		if s:GetTitle() ~= '' then s._text = s:GetTitle() s:SetTitle('') end
-		draw.SimpleText(s._text, 'Azylix_Arial_15', 8, 5, Color(255, 255, 255))
-	end
+	Azylix.Frame.Paint = Azylix.Paint.DiscordTheme
 
 	Azylix.SidePanel = vgui.Create('DPanel', Azylix.Frame)
 	Azylix.SidePanel:SetSize(100, Azylix.Frame:GetTall() - 26)
@@ -54,4 +38,9 @@ net.Receive('OpenAzylix', function(len, ply)
 
 	Azylix.SP.HomeBtn()
 	Azylix.SP.RunCodeBtn()
+
+	Azylix.SP.RunFilesBtn()
+	Azylix.SP.SQLBtn()
+	Azylix.SP.SettingsBtn()
+	Azylix.SP.CreditsBtn()
 end)

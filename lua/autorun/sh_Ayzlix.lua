@@ -2,16 +2,14 @@ Azylix = {}
 Azylix.SidePanel = {}
 Azylix.SP = {}
 
+Azylix.Paint = {}
+
+Azylix.Version = 'v0.1'
+
 MsgC(Color(255, 187, 0), '[Azylix] [Shared] Loaded\n')
 
 hook.Add('PlayerSay', 'Azylix', function(ply, str)
 	if string.lower(str) != '!azylix' then return end
-	--if !ply:IsSuperAdmin() then return end
-	net.Start('OpenAzylix')
-	net.Send(ply)
-end)
-
-concommand.Add('Azylix', function(ply)
 	if !ply:IsSuperAdmin() then return end
 	net.Start('OpenAzylix')
 	net.Send(ply)
@@ -33,6 +31,7 @@ function Azylix.IDir(dir, DirFilesOnly)
 end
 
 Azylix.IDir('autorun/client/SidePanel')
+include('autorun/client/cl_paint.lua') -- For when you reload this file
 
 function Azylix.RunSharedLua(ply, code)
 	if !ply:IsSuperAdmin() then

@@ -4,10 +4,12 @@ util.AddNetworkString('Azylix_RunCLLua')
 util.AddNetworkString('Azylix_RunSVLua')
 
 util.AddNetworkString('Azylix_FuncAbuse')
+util.AddNetworkString('CCOpenAzylix')
 util.AddNetworkString('OpenAzylix')
 
 local function NetMessageAbuse(ply, netmsg)
   file.Append('AzylixNetMessageAbuse.txt', '[' .. util.DateStamp() .. '] ' .. netmsg .. ' Net Message Abuse by ' .. ply:Nick() .. ' ' .. '[' .. ply:SteamID() .. ']\n')
+  print('[' .. util.DateStamp() .. '] ' .. netmsg .. ' Net Message Abuse by ' .. ply:Nick() .. ' ' .. '[' .. ply:SteamID() .. ']')
 end
 
 net.Receive('Azylix_RunSVLua', function(len, ply)
@@ -44,4 +46,14 @@ net.Receive('Azylix_FuncAbuse', function()
     NetMessageAbuse(ply, '[Azylix_FuncAbuse || Azylix.RunSharedLua()]')
     return
   end
+end)
+
+net.Receive('CCOpenAzylix', function(len, ply)
+  if !ply:IsSuperAdmin() then
+    NetMessageAbuse(ply, '[CCOpenAzylix]')
+    return
+  end
+
+  net.Start('OpenAzylix')
+  net.Send(ply)
 end)
